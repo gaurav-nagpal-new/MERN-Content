@@ -1,0 +1,44 @@
+What is nosql ?
+What is mongoDB ?
+What is a collection ?
+What is a document ?
+
+1. NoSQL: A type of database that stores data in non-tabular formats (like key-value, document, graph, or column), focusing on flexibility, scalability, and speed rather than strict relational structure.
+
+2. MongoDB: A popular open-source NoSQL database that stores data in flexible, JSON-like documents.
+
+3. Collection: A group of documents in MongoDB (similar to a table in relational databases).
+
+4. Document: A single record in MongoDB, stored in JSON/BSON format with fields and values.
+
+Installing mongodb and running it 
+https://www.mongodb.com/try/download/community
+https://www.simplilearn.com/tutorials/mongodb-tutorial/install-mongodb-on-windows#create_an_environment_variable
+
+
+// select database
+use todos;
+
+// CRUD operations
+
+// create
+
+insertOne
+db.todos.insertOne({"name":"sleep", "status":"sleep for 1 day"});
+
+insertMany
+db.todos.insertMany([{"name":"sleep", "status":"sleep for 1 day"},{"name":"eat", "status":"eat for 1 day"}]);
+
+// read
+
+all
+db.todos.find();
+
+with filter
+db.todos.find({_id:ObjectId('689b432d8a9aa1c4d57c88de')});
+
+// update
+db.todos.updateOne({_id:ObjectId('689b432d8a9aa1c4d57c88de')}, {$set:{"status":"eat for 2 days"}});
+
+// delete
+db.todos.deleteOne({_id:ObjectId('68989cd1847cc695af8b25cd')});

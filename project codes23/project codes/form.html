@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dog Adoption Information Form</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #f0f2f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .form-container {
+            background: #fff;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 650px; /* Slightly increased width */
+        }
+
+        .form-container h2 {
+            text-align: center;
+            margin-bottom: 25px;
+            color: #4b6cb7;
+            font-size: 2rem;
+            font-weight: 600;
+        }
+
+        nav.nav-links {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 30px;
+            font-weight: 500;
+        }
+
+        nav.nav-links a {
+            text-decoration: none;
+            color: #666;
+            font-size: 1rem;
+            padding: 8px 15px;
+            border-radius: 6px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        nav.nav-links a:hover,
+        nav.nav-links a.active {
+            background-color: #4b6cb7;
+            color: white;
+            box-shadow: 0 2px 8px rgba(75, 108, 183, 0.2);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #555;
+            font-size: 0.95rem;
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: #6c63ff;
+            box-shadow: 0 0 0 3px rgba(108, 99, 255, 0.2);
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .form-group-inline {
+            display: flex;
+            gap: 20px;
+        }
+
+        .form-group-inline .form-group {
+            flex: 1;
+        }
+
+        button[type="submit"] {
+            width: 100%;
+            padding: 15px;
+            background: #6c63ff;
+            border: none;
+            border-radius: 8px;
+            color: white;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.3s, transform 0.2s, box-shadow 0.3s;
+            margin-top: 10px;
+        }
+
+        button[type="submit"]:hover {
+            background: #5a54e0;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(108, 99, 255, 0.4);
+        }
+        
+        .confirmation-message {
+            display: none;
+            background-color: #dff0d8;
+            border: 1px solid #d6e9c6;
+            color: #3c763d;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 20px;
+            text-align: center;
+        }
+        
+        @media (max-width: 500px) {
+            .form-group-inline {
+                flex-direction: column;
+            }
+
+            .form-container {
+                padding: 25px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="form-container">
+        <h2>Dog Adoption Information</h2>
+        <nav class="nav-links">
+            <a href="dashboard.html">Dashboard</a>
+            <a href="filter.html">Categories</a>
+            <a href="dogdisplay.html">Adoption</a>
+            <a href="login.html">Login</a>
+            <a href="form.html" class="active">Form</a>
+            <a href="invoice.html">Invoice</a>
+        </nav>
+
+        <form id="adoptionForm">
+            <div class="form-group">
+                <label for="adopterName">Adopter's Full Name</label>
+                <input type="text" id="adopterName" placeholder="Enter your full name" required>
+            </div>
+
+            <div class="form-group-inline">
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+                    <input type="email" id="email" placeholder="Enter your email" required>
+                </div>
+                <div class="form-group">
+                    <label for="phone">Phone Number</label>
+                    <input type="tel" id="phone" placeholder="Enter your phone number" required>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="address">Home Address</label>
+                <textarea id="address" placeholder="Enter your address" required></textarea>
+            </div>
+
+            <div class="form-group-inline">
+                <div class="form-group">
+                    <label for="dogName">Dog's Name</label>
+                    <input type="text" id="dogName" placeholder="Enter pet's name" required>
+                </div>
+                <div class="form-group">
+                    <label for="dogType">Dog Breed</label>
+                    <select id="dogType" required>
+                        <option value="">-- Select --</option>
+                        <option>Labrador</option>
+                        <option>German Shepherd</option>
+                        <option>Bulldog</option>
+                        <option>Golden Retriever</option>
+                        <option>Other</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="adoptionDate">Adoption Date</label>
+                <input type="date" id="adoptionDate" required>
+            </div>
+
+            <div class="form-group">
+                <label for="feedback">Feedback / Comments</label>
+                <textarea id="feedback" placeholder="Share your experience or suggestions"></textarea>
+            </div>
+
+            <button type="submit">Submit Information</button>
+        </form>
+        
+        <div class="confirmation-message" id="confirmationMessage">
+            <h3>Thank you for submitting your adoption information!</h3>
+            <p>Your application is being processed. You will receive a confirmation email shortly.</p>
+        </div>
+    </div>
+
+    <script>
+    document.getElementById("adoptionForm").addEventListener("submit", function(event) {
+        event.preventDefault(); // page reload hone se rokta hai
+
+        // 🔹 sab data collect karo
+        const formData = {
+            name: document.querySelector("input[name='fullName']").value.trim(),
+            email: document.querySelector("input[name='email']").value.trim(),
+            phone: document.querySelector("input[name='phone']").value.trim(),
+            address: document.querySelector("textarea[name='address']").value.trim(),
+            dogName: document.querySelector("input[name='dogName']").value.trim(),
+            dogBreed: document.querySelector("select[name='dogBreed']").value,
+            date: document.querySelector("input[name='adoptionDate']").value,
+            comments: document.querySelector("textarea[name='comments']").value.trim()
+        };
+
+        // 🔹 Validate required fields (optional but helpful)
+        if (!formData.name || !formData.email || !formData.dogName || !formData.dogBreed) {
+            alert("Please fill all required fields!");
+            return;
+        }
+
+        // 🔹 localStorage me save karo
+        localStorage.setItem("adoptionData", JSON.stringify(formData));
+
+        // 🔹 invoice page pe bhej do
+        window.location.href = "invoice.html";
+    });
+    </script>
+</body>
+</html>

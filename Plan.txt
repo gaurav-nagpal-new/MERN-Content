@@ -1,0 +1,48 @@
+DSA Plan with Java 
+
+Refresher of Java:
+
+Variables declaration - a program to swap two numbers with and without using third variable
+Decision Statements - create a simple program to find if the number is positive, negative or neutral, Taking input - In OOPs class, Using Ternary operator (odd even using Ternary Op)
+Loops - print 1 to 10 counting, print 10 to 1 counting, reverse a given number, check if a number is palindrome or not - while and for loop, patterns start here 
+Arrays & Strings - just create and print one array and string, with 2D matrix - for each loop 
+String, StringBuilder and StringBuffer and related methods 
+
+Collection introduction - after the basic questions
+
+Basic questions to practice syntax and logic building foundation
+
+1. Find reverse of the array and string,Largest Element in Array, Smallest
+2. Print odd and even numbers from the array
+3. All 21 patterns 
+4. Check if a number is palindrome
+5. Check if an array or a string is palindrome or not
+6. Find factorial of a number using recursion and loops
+7. Sum of first N natural numbers
+8. Linear and Binary Search
+9. All sorting techniques
+10. Space and time Complexity
+
+Some extra questions:
+Find LCM and GCD of the number
+Find if the number is prime or not
+Print prime numbers between a given range
+Find Fibonacci using recursion
+Store count of each element in the array in the resultant frequency array
+
+Before Recursion, do some questions:
+All recursion questions as before.
+Print 1 to n and n to 1 using recursion.
+Get factorial 
+Get fibonacci
+Reverse the array using recursion.
+Palindrome array using recursion.
+DRY run of recursive questions - understand backtracking 
+Questions from Striver Sheet, Only then start backtracking Leetcode 75
+
+Now start LeetCode 75 - 2 months + Mock interviews with DSA questions
+
+Trees basics: http://www.btechsmartclass.com/data_structures/tree-terminology.html
+
+Do LeetCode 150 along with MERN stack dev - 2 major and one minor projects
+

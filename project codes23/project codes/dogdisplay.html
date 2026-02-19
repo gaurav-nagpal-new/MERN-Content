@@ -1,0 +1,737 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Dog Management System</title>
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            background: linear-gradient(to right, #4b6cb7, #182848);
+            color: white;
+            padding: 25px 0;
+            text-align: center;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+
+        .header-desc {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        nav.nav-links {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-bottom: 30px;
+            font-weight: 600;
+        }
+
+        nav.nav-links a {
+            text-decoration: none;
+            color: #4b6cb7;
+            font-size: 1.1rem;
+            padding: 8px 15px;
+            border-radius: 6px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        nav.nav-links a:hover,
+        nav.nav-links a.active {
+            background-color: #375cb3;
+            color: white;
+        }
+
+        .controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+            gap: 15px;
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        }
+
+        .search-box {
+            flex: 1;
+            min-width: 250px;
+            position: relative;
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 12px 20px 12px 45px;
+            border: 1px solid #ddd;
+            border-radius: 30px;
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+
+        .search-box input:focus {
+            outline: none;
+            border-color: #4b6cb7;
+            box-shadow: 0 0 0 3px rgba(75, 108, 183, 0.2);
+        }
+
+        .search-box i {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #888;
+        }
+
+        .filter-options {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        select {
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background: white;
+            font-size: 0.9rem;
+            cursor: pointer;
+        }
+
+        .view-options {
+            display: flex;
+            gap: 10px;
+        }
+
+        .view-btn {
+            background: #f0f2f5;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .view-btn.active {
+            background: #4b6cb7;
+            color: white;
+        }
+
+        .dogs-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 25px;
+        }
+
+        .dog-card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .dog-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .dog-image {
+            height: 200px;
+            overflow: hidden;
+        }
+
+        .dog-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s;
+        }
+
+        .dog-card:hover .dog-image img {
+            transform: scale(1.05);
+        }
+
+        .dog-info {
+            padding: 20px;
+        }
+
+        .dog-info h3 {
+            font-size: 1.4rem;
+            margin-bottom: 8px;
+            color: #2c3e50;
+        }
+
+        .dog-breed {
+            color: #4b6cb7;
+            font-weight: 500;
+            margin-bottom: 12px;
+            font-size: 1rem;
+        }
+
+        .dog-details {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+            font-size: 0.9rem;
+        }
+
+        .dog-details span {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .dog-description {
+            color: #666;
+            font-size: 0.95rem;
+            margin-bottom: 15px;
+            line-height: 1.5;
+        }
+
+        .dog-actions {
+            display: flex;
+            justify-content: space-between;
+            border-top: 1px solid #eee;
+            padding-top: 15px;
+            margin-top: 10px;
+        }
+
+        .btn {
+            padding: 8px 15px;
+            border: none;
+            border-radius: 6px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-primary {
+            background: #4b6cb7;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #3a5795;
+        }
+
+        .btn-secondary {
+            background: #f0f2f5;
+            color: #333;
+        }
+
+        .btn-secondary:hover {
+            background: #e4e6e9;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 50px;
+            padding: 20px;
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            z-index: 1000;
+            overflow-y: auto;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .modal-content {
+            background-color: white;
+            margin: 5% auto;
+            width: 90%;
+            max-width: 800px;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+            animation: slideUp 0.4s ease;
+        }
+
+        @keyframes slideUp {
+            from { transform: translateY(50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .modal-header {
+            background: linear-gradient(to right, #4b6cb7, #182848);
+            color: white;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-header h2 {
+            font-size: 1.8rem;
+        }
+
+        .close-btn {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+
+        .close-btn:hover {
+            transform: scale(1.2);
+        }
+
+        .modal-body {
+            padding: 30px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+        }
+
+        .dog-image-large {
+            width: 100%;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .dog-image-large img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .dog-details-full h3 {
+            color: #4b6cb7;
+            margin-bottom: 20px;
+            font-size: 1.5rem;
+        }
+
+        .detail-item {
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .detail-label {
+            font-weight: 600;
+            color: #555;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .detail-value {
+            color: #333;
+        }
+
+        .dog-traits {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .trait {
+            background: #f0f2f5;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            color: #4b6cb7;
+        }
+
+        .adopt-btn {
+            background: #4b6cb7;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 6px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 20px;
+            width: 100%;
+        }
+
+        .adopt-btn:hover {
+            background: #3a5795;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(75, 108, 183, 0.4);
+        }
+
+        @media (max-width: 768px) {
+            .modal-body {
+                grid-template-columns: 1fr;
+            }
+            
+            .modal-content {
+                width: 95%;
+                margin: 10% auto;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Dog Management System</h1>
+            <p class="header-desc">Browse and manage our lovely canine companions</p>
+        </header>
+
+        <nav class="nav-links">
+            <a href="dashboard.html">Dashboard</a>
+            <a href="filter.html">Categories</a>
+            <a href="dogdisplay.html" class="active">Adoption</a>
+            <a href="login.html">Login</a>
+            <a href="form.html">Form</a>
+            <a href="invoice.html">Invoice</a>
+        </nav>
+
+        <div class="controls">
+            <div class="search-box">
+                <i class="fas fa-search"></i>
+                <input type="text" id="search-input" placeholder="Search dogs by name or breed..." />
+            </div>
+
+            <div class="filter-options">
+                <select id="filter-breed">
+                    <option value="">All Breeds</option>
+                    <option value="Labrador">Labrador</option>
+                    <option value="German Shepherd">German Shepherd</option>
+                    <option value="Bulldog">Bulldog</option>
+                    <option value="Golden Retriever">Golden Retriever</option>
+                    <option value="Poodle">Poodle</option>
+                    <option value="Shiba Inu">Shiba Inu</option>
+                    <option value="Dalmatian">Dalmatian</option>
+                    <option value="Corgi">Corgi</option>
+                    <option value="Beagle">Beagle</option>
+                    <option value="Husky">Husky</option>
+                </select>
+            </div>
+
+            <div class="view-options">
+                <button class="view-btn active" id="grid-view">
+                    <i class="fas fa-th"></i>
+                </button>
+                <button class="view-btn" id="list-view">
+                    <i class="fas fa-list"></i>
+                </button>
+            </div>
+        </div>
+
+        <div class="dogs-grid" id="dogs-container">
+            <!-- Dog cards will be generated here by JavaScript -->
+        </div>
+    </div>
+
+    <footer>
+        <p>Dog Management System &copy; 2023. All rights reserved.</p>
+    </footer>
+
+    <!-- Dog Details Modal -->
+    <div class="modal" id="dogModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modalDogName">Dog Name</h2>
+                <button class="close-btn" id="closeModal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="dog-image-large">
+                    <img id="modalDogImage" src="" alt="Dog Image">
+                </div>
+                <div class="dog-details-full">
+                    <h3>About Me</h3>
+                    <div class="detail-item">
+                        <span class="detail-label">Breed:</span>
+                        <span class="detail-value" id="modalDogBreed">Breed</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Age:</span>
+                        <span class="detail-value" id="modalDogAge">Age</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Gender:</span>
+                        <span class="detail-value" id="modalDogGender">Gender</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Color:</span>
+                        <span class="detail-value" id="modalDogColor">Color</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Temperament:</span>
+                        <span class="detail-value" id="modalDogTemperament">Temperament</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Health Status:</span>
+                        <span class="detail-value" id="modalDogHealth">Health Status</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Description:</span>
+                        <p class="detail-value" id="modalDogDescription">Description</p>
+                    </div>
+                    
+                    <div class="dog-traits">
+                        <span class="trait" id="modalDogTrait1">Friendly</span>
+                        <span class="trait" id="modalDogTrait2">Playful</span>
+                        <span class="trait" id="modalDogTrait3">Good with kids</span>
+                    </div>
+                    
+                    <button class="adopt-btn" id="adoptDogBtn">Adopt This Dog</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Extended dog data with more details
+        const dogs = [
+            { 
+                id: 1, 
+                name: "Max", 
+                breed: "Labrador", 
+                age: 3, 
+                gender: "Male", 
+                color: "Golden", 
+                description: "Friendly and energetic labrador who loves to play fetch and go for long walks. He's great with children and other pets.", 
+                image: "https://images.unsplash.com/photo-1543466835-00a7907e9de1",
+                temperament: "Playful, Friendly, Energetic",
+                health: "Vaccinated, Neutered, Microchipped",
+                traits: ["Good with kids", "Loves water", "Obedient"]
+            },
+            { 
+                id: 2, 
+                name: "Bella", 
+                breed: "German Shepherd", 
+                age: 2, 
+                gender: "Female", 
+                color: "Black and Tan", 
+                description: "Intelligent and protective companion, great with families. Bella is highly trainable and loves mental stimulation.", 
+                image: "https://wallpapers.com/images/hd/bright-german-shepherd-dog-az4sanyk2mebg0y7.jpg",
+                temperament: "Loyal, Intelligent, Protective",
+                health: "Vaccinated, Spayed, Microchipped",
+                traits: ["Guard dog", "Highly trainable", "Active"]
+            },
+            { 
+                id: 3, 
+                name: "Charlie", 
+                breed: "Bulldog", 
+                age: 4, 
+                gender: "Male", 
+                color: "White", 
+                description: "Calm and gentle bulldog who enjoys relaxing at home. Charlie is low-energy and perfect for apartment living.", 
+                image: "https://images.unsplash.com/photo-1560807707-8cc77767d783",
+                temperament: "Calm, Gentle, Affectionate",
+                health: "Vaccinated, Neutered, Microchipped",
+                traits: ["Low energy", "Good with cats", "Apartment-friendly"]
+            },
+            { 
+                id: 4, 
+                name: "Luna", 
+                breed: "Golden Retriever", 
+                age: 1, 
+                gender: "Female", 
+                color: "Cream", 
+                description: "Playful and affectionate, loves swimming and retrieving. Luna is still a puppy at heart and loves to play.", 
+                image: "https://tse4.mm.bing.net/th/id/OIP.F2n8lG77WJwtWolnzDzkEwHaJ4?pid=Api&P=0&h=180",
+                temperament: "Playful, Affectionate, Intelligent",
+                health: "Vaccinated, Spayed, Microchipped",
+                traits: ["Loves water", "Great retriever", "Family-friendly"]
+            },
+            { 
+                id: 5, 
+                name: "Jack", 
+                breed: "Husky", 
+                age: 2, 
+                gender: "Male", 
+                color: "Gray and White", 
+                description: "Energetic husky with striking blue eyes. Jack loves cold weather and needs plenty of exercise.", 
+                image: "https://up.yimg.com/ib/th/id/OIP.heSguU0NKAlz6wZj3eNDzQHaEo?pid=Api&rs=1&c=1&qlt=95&w=162&h=101",
+                temperament: "Energetic, Independent, Vocal",
+                health: "Vaccinated, Neutered, Microchipped",
+                traits: ["Cold weather lover", "Needs exercise", "Vocal"]
+            }
+        ];
+
+        // DOM Elements
+        const dogsContainer = document.getElementById('dogs-container');
+        const searchInput = document.getElementById('search-input');
+        const breedFilter = document.getElementById('filter-breed');
+        const gridViewBtn = document.getElementById('grid-view');
+        const listViewBtn = document.getElementById('list-view');
+        const modal = document.getElementById('dogModal');
+        const closeModalBtn = document.getElementById('closeModal');
+        const adoptDogBtn = document.getElementById('adoptDogBtn');
+
+        // Render dog cards
+        function renderDogs(dogsArray) {
+            dogsContainer.innerHTML = '';
+
+            dogsArray.forEach((dog) => {
+                const dogCard = document.createElement('div');
+                dogCard.className = 'dog-card';
+                dogCard.innerHTML = `
+                    <div class="dog-image">
+                        <img src="${dog.image}" alt="${dog.name}">
+                    </div>
+                    <div class="dog-info">
+                        <h3>${dog.name}</h3>
+                        <p class="dog-breed">${dog.breed}</p>
+                        <div class="dog-details">
+                            <span><i class="fas fa-birthday-cake"></i> ${dog.age} years</span>
+                            <span><i class="fas ${dog.gender === 'Male' ? 'fa-mars' : 'fa-venus'}"></i> ${dog.gender}</span>
+                        </div>
+                        <p class="dog-description">${dog.description}</p>
+                        <div class="dog-actions">
+                            <button class="btn btn-primary view-details" data-id="${dog.id}">View Details</button>
+                            <button class="btn btn-secondary">Edit</button>
+                        </div>
+                    </div>
+                `;
+                dogsContainer.appendChild(dogCard);
+            });
+
+            // Add event listeners to view details buttons
+            document.querySelectorAll('.view-details').forEach(button => {
+                button.addEventListener('click', function() {
+                    const dogId = parseInt(this.getAttribute('data-id'));
+                    showDogDetails(dogId);
+                });
+            });
+        }
+        // Show dog details in modal
+        function showDogDetails(dogId) {
+        const dog = dogs.find(d => d.id === dogId);
+        if (!dog) return;
+
+        // Populate modal with dog data
+        document.getElementById('modalDogName').textContent = dog.name;
+        document.getElementById('modalDogImage').src = dog.image;
+        document.getElementById('modalDogImage').alt = dog.name;
+        document.getElementById('modalDogBreed').textContent = dog.breed;
+        document.getElementById('modalDogAge').textContent = `${dog.age} years`;
+        document.getElementById('modalDogGender').textContent = dog.gender;
+        document.getElementById('modalDogColor').textContent = dog.color;
+        document.getElementById('modalDogTemperament').textContent = dog.temperament;
+        document.getElementById('modalDogHealth').textContent = dog.health;
+        document.getElementById('modalDogDescription').textContent = dog.description;
+        
+        // Populate traits
+        const traits = document.querySelectorAll('.trait');
+        traits.forEach((trait, index) => {
+            if (dog.traits[index]) {
+                trait.textContent = dog.traits[index];
+                trait.style.display = 'inline-block';
+            } else {
+                trait.style.display = 'none';
+            }
+        });
+
+        // ✅ NEW CODE: Make "Adopt This Dog" button go to the form page
+        const adoptButton = document.getElementById('adoptDogBtn');
+        adoptButton.onclick = function () {
+            window.location.href = `form.html?dogName=${encodeURIComponent(dog.name)}&dogBreed=${encodeURIComponent(dog.breed)}`;
+        };
+
+        // Show the modal
+        document.getElementById('dogModal').style.display = 'block';
+    }
+
+
+        // Filter dogs based on search and breed
+        function filterDogs() {
+            const searchTerm = searchInput.value.toLowerCase();
+            const breedValue = breedFilter.value;
+
+            const filteredDogs = dogs.filter((dog) => {
+                const matchesSearch = dog.name.toLowerCase().includes(searchTerm) || 
+                                      dog.breed.toLowerCase().includes(searchTerm);
+                const matchesBreed = breedValue === '' || dog.breed === breedValue;
+                return matchesSearch && matchesBreed;
+            });
+
+            renderDogs(filteredDogs);
+        }
+
+        // Initialize the page
+        function init() {
+            renderDogs(dogs);
+            
+            // Event listeners
+            searchInput.addEventListener('input', filterDogs);
+            breedFilter.addEventListener('change', filterDogs);
+            
+            gridViewBtn.addEventListener('click', () => {
+                dogsContainer.className = 'dogs-grid';
+                gridViewBtn.classList.add('active');
+                listViewBtn.classList.remove('active');
+            });
+
+            listViewBtn.addEventListener('click', () => {
+                dogsContainer.className = 'dogs-list';
+                listViewBtn.classList.add('active');
+                gridViewBtn.classList.remove('active');
+            });
+
+            // Modal event listeners
+            closeModalBtn.addEventListener('click', () => {
+                modal.style.display = 'none';
+            });
+
+            // Close modal when clicking outside
+            window.addEventListener('click', (event) => {
+                if (event.target === modal) {
+                    modal.style.display = 'none';
+                }
+            });
+        }
+
+        // Start the application
+        document.addEventListener('DOMContentLoaded', init);
+    </script>
+</body>
+</html>

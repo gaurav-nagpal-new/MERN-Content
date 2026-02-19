@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Dog Adoption Dashboard</title>
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+
+    />
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+            margin-bottom: 30px;
+            border-bottom: 1px solid #e1e4e8;
+            gap: 40px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+        }
+
+        .logo i {
+            font-size: 28px;
+            color: #6c63ff;
+            margin-right: 10px;
+        }
+
+        .logo h1 {
+            font-size: 24px;
+            color: #2d3436;
+        }
+
+        nav.nav-links {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-bottom: 30px;
+            font-weight: 600;
+        }
+
+        nav.nav-links a {
+            text-decoration: none;
+            color: #4b6cb7;
+            font-size: 1.1rem;
+            padding: 8px 15px;
+            border-radius: 6px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        nav.nav-links a:hover,
+        nav.nav-links a.active {
+            background-color: #375cb3;
+            color: white;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+        }
+
+        .user-info img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            margin-right: 10px;
+            object-fit: cover;
+        }
+
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+
+        .stat-card {
+            background: white;
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+            transition: transform 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .card-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #636e72;
+        }
+
+        .card-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+        }
+
+        .available .card-icon {
+            background: rgba(76, 175, 80, 0.15);
+            color: #4caf50;
+        }
+
+        .adopted .card-icon {
+            background: rgba(63, 81, 181, 0.15);
+            color: #3f51b5;
+        }
+
+        .pending .card-icon {
+            background: rgba(255, 152, 0, 0.15);
+            color: #ff9800;
+        }
+
+        .stat-number {
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        .stat-change {
+            display: flex;
+            align-items: center;
+            font-size: 14px;
+            color: #636e72;
+        }
+
+        .positive {
+            color: #4caf50;
+        }
+
+        .negative {
+            color: #f44336;
+        }
+
+        .stat-change i {
+            margin-right: 5px;
+        }
+
+        .charts-container {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 25px;
+        }
+
+        .chart-card {
+            background: white;
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+        }
+
+        .chart-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .chart-title {
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        .chart-actions {
+            display: flex;
+        }
+
+        .chart-actions select {
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            background: white;
+            color: #333;
+            font-size: 14px;
+        }
+
+        .dog-list {
+            list-style: none;
+        }
+
+        .dog-item {
+            display: flex;
+            align-items: center;
+            padding: 15px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .dog-item:last-child {
+            border-bottom: none;
+        }
+
+        .dog-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-right: 15px;
+        }
+
+        .dog-info h4 {
+            font-size: 16px;
+            margin-bottom: 5px;
+        }
+
+        .dog-info p {
+            font-size: 14px;
+            color: #636e72;
+        }
+
+        .dog-status {
+            margin-left: auto;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .status-available {
+            background: rgba(76, 175, 80, 0.15);
+            color: #4caf50;
+        }
+
+        .status-adopted {
+            background: rgba(63, 81, 181, 0.15);
+            color: #3f51b5;
+        }
+
+        .status-pending {
+            background: rgba(255, 152, 0, 0.15);
+            color: #ff9800;
+        }
+
+        .chart-placeholder {
+            height: 250px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #f9f9f9;
+            border-radius: 8px;
+            margin-top: 20px;
+            color: #636e72;
+        }
+
+        @media (max-width: 992px) {
+            .dashboard-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .charts-container {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+
+            header {
+                flex-direction: column;
+                text-align: center;
+                gap: 15px;
+            }
+
+            .user-info {
+                margin-top: 15px;
+            }
+
+            /* Stack nav links vertically on small screens */
+            .navbar ul {
+                flex-direction: column;
+                gap: 12px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">
+                <i class="fas fa-paw"></i>
+                <h1>Dog Adoption Dashboard</h1>
+            </div>
+           <nav class="nav-links">
+            <a href="dashboard.html"class="active" >Dashboard</a>
+            <a href="filter.html">Categories</a>
+            <a href="dogdisplay.html" >Adoption</a>
+            <a href="login.html">Login</a>
+            <a href="form.html">Form</a>
+            <a href="Invoice.html">Invoice</a>
+        </nav>
+
+            <div class="user-info"></div>
+        </header>
+
+        <div class="dashboard-grid">
+            <div class="stat-card available">
+                <div class="card-header">
+                    <div class="card-title">AVAILABLE DOGS</div>
+                    <div class="card-icon">
+                        <i class="fas fa-dog"></i>
+                    </div>
+                </div>
+                <div class="stat-number">10</div>
+                <div class="stat-change positive">
+                    <i class="fas fa-arrow-up"></i> +4 since last week
+                </div>
+            </div>
+
+            <div class="stat-card adopted">
+                <div class="card-header">
+                    <div class="card-title">ADOPTED DOGS</div>
+                    <div class="card-icon">
+                        <i class="fas fa-home"></i>
+                    </div>
+                </div>
+                <div class="stat-number">2</div>
+                <div class="stat-change positive">
+                    <i class="fas fa-arrow-up"></i> +8 since last week
+                </div>
+            </div>
+
+            <div class="stat-card pending">
+                <div class="card-header">
+                    <div class="card-title">PENDING ADOPTIONS</div>
+                    <div class="card-icon">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                </div>
+                <div class="stat-number">3</div>
+                <div class="stat-change negative">
+                    <i class="fas fa-arrow-down"></i> -3 since last week
+                </div>
+            </div>
+        </div>
+
+        <div class="charts-container">
+            <div class="chart-card">
+                <div class="chart-header">
+                    <div class="chart-title">Adoption Trends</div>
+                    <div class="chart-actions">
+                        <select>
+                            <option>Last 7 Days</option>
+                            <option>Last 30 Days</option>
+                            <option>Last 3 Months</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="chart-placeholder">
+                    Adoption Trends Chart (would display here in a real application)
+                </div>
+            </div>
+
+            <div class="chart-card">
+                <div class="chart-header">
+                    <div class="chart-title">Recent Activities</div>
+                </div>
+                <ul class="dog-list">
+                    <li class="dog-item">
+                        <img
+                            src="https://images.unsplash.com/photo-1554692918-08fa0fdc9db3?ixlib=rb-1.2.1&auto=format&fit=crop&w=100&h=100&q=80"
+                            alt="Buddy"
+                            class="dog-avatar"
+                        />
+                        <div class="dog-info">
+                            <h4>Buddy</h4>
+                            <p>Golden Retriever • 2 years</p>
+                        </div>
+                        <span class="dog-status status-adopted">Adopted</span>
+                    </li>
+                    <li class="dog-item">
+                        <img
+                            src="https://images.unsplash.com/photo-1587300003388-59208cc962cb?ixlib=rb-1.2.1&auto=format&fit=crop&w=100&h=100&q=80"
+                            alt="Luna"
+                            class="dog-avatar"
+                        />
+                        <div class="dog-info">
+                            <h4>Luna</h4>
+                            <p>Husky • 3 years</p>
+                        </div>
+                        <span class="dog-status status-pending">Pending</span>
+                    </li>
+                    <li class="dog-item">
+                        <img
+                            src="https://images.unsplash.com/photo-1560807707-8cc77767d783?ixlib=rb-1.2.1&auto=format&fit=crop&w=100&h=100&q=80"
+                            alt="Max"
+                            class="dog-avatar"
+                        />
+                        <div class="dog-info">
+                            <h4>Max</h4>
+                            <p>German Shepherd • 4 years</p>
+                        </div>
+                        <span class="dog-status status-available">Available</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- <script>
+        // Simple animation for stat numbers
+        document.addEventListener('DOMContentLoaded', function () {
+            const statNumbers = document.querySelectorAll('.stat-number');
+
+            statNumbers.forEach((stat) => {
+                const target = parseInt(stat.textContent);
+                let count = 0;
+                const duration = 1500;
+                const frameRate = 30;
+                const totalFrames = duration / (1000 / frameRate);
+                const increment = target / totalFrames;
+
+                const timer = setInterval(() => {
+                    count += increment;
+                    if (count >= target) {
+                        count = target;
+                        clearInterval(timer);
+                    }
+                    stat.textContent = Math.round(count);
+                }, 1000 / frameRate);
+            });
+        });
+    </script> -->
+</body>
+</html>

@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dog Adoption Filter System</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+        
+        header {
+            background: linear-gradient(120deg, #6c63ff, #4a43c9);
+            color: white;
+            padding: 25px;
+            text-align: center;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 15px;
+        }
+        
+        .logo i {
+            font-size: 32px;
+            margin-right: 15px;
+        }
+        
+        .logo h1 {
+            font-size: 28px;
+            font-weight: 700;
+        }
+        
+        .subtitle {
+            font-size: 18px;
+            opacity: 0.9;
+            margin-bottom: 10px;
+        }
+        
+        .filter-section {
+            padding: 25px;
+            background: #f9fafc;
+            border-bottom: 1px solid #eaeef2;
+        }
+        
+        .filter-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+        
+        .filter-group {
+            margin-bottom: 15px;
+        }
+        
+        .filter-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #4a5568;
+        }
+        
+        .filter-control {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            background: white;
+            color: #333;
+            transition: all 0.3s ease;
+        }
+        
+        .filter-control:focus {
+            outline: none;
+            border-color: #6c63ff;
+            box-shadow: 0 0 0 3px rgba(108, 99, 255, 0.2);
+        }
+        
+        .age-slider {
+            width: 100%;
+            margin-top: 10px;
+        }
+        
+        .age-value {
+            text-align: center;
+            font-weight: 600;
+            color: #6c63ff;
+            margin-top: 5px;
+        }
+        
+        .actions {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .btn {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary {
+            background: #564fe9;
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background: #5a52d5;
+            transform: translateY(-2px);
+        }
+        
+        .btn-secondary {
+            background: #f0f0f0;
+            color: #333;
+        }
+        
+        .btn-secondary:hover {
+            background: #e0e0e0;
+        }
+        
+        .results-section {
+            padding: 25px;
+        }
+        
+        .results-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+        
+        .results-count {
+            font-size: 18px;
+            font-weight: 600;
+            color: #4a5568;
+        }
+        
+        .results-count span {
+            color: #6c63ff;
+        }
+        
+        .sort-by select {
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+        }
+        
+        .dogs-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 25px;
+        }
+        
+        .dog-card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+            transition: transform 0.3s ease;
+        }
+        
+        .dog-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .dog-image {
+            height: 200px;
+            overflow: hidden;
+        }
+        
+        .dog-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+        
+        .dog-card:hover .dog-image img {
+            transform: scale(1.05);
+        }
+        
+        .dog-info {
+            padding: 20px;
+        }
+        
+        .dog-name {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+        
+        .dog-details {
+            color: #718096;
+            margin-bottom: 15px;
+        }
+        
+        .dog-status {
+            display: inline-block;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 600;
+        }
+        
+        .status-available {
+            background: rgba(76, 175, 80, 0.15);
+            color: #4caf50;
+        }
+        
+        .status-adopted {
+            background: rgba(63, 81, 181, 0.15);
+            color: #3f51b5;
+        }
+        
+        .status-pending {
+            background: rgba(255, 152, 0, 0.15);
+            color: #ff9800;
+        }
+        
+        .no-results {
+            text-align: center;
+            padding: 40px;
+            grid-column: 1 / -1;
+        }
+        
+        .no-results i {
+            font-size: 60px;
+            color: #cbd5e0;
+            margin-bottom: 20px;
+        }
+        
+        .no-results h3 {
+            font-size: 24px;
+            color: #4a6793;
+            margin-bottom: 15px;
+        }
+        
+        @media (max-width: 768px) {
+            .filter-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .results-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+            
+            .dogs-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+                .navbar {
+            background: #4a43c9;
+            padding: 12px 20px;
+        }
+
+         nav.nav-links {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-bottom: 30px;
+            font-weight: 600;
+        }
+
+        nav.nav-links a {
+            text-decoration: none;
+            color: #edf0f7;
+            font-size: 1.1rem;
+            padding: 8px 15px;
+            border-radius: 6px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        nav.nav-links a:hover,
+        nav.nav-links a.active {
+            background-color: #2f218d;
+            color: white;
+        }
+
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">
+                <i class="fas fa-paw"></i>
+                <h1>DogsHome</h1>
+            </div>
+            <p class="subtitle">Find your perfect Friend</p>
+                    <header>
+           
+
+       <nav class="nav-links">
+            <a href="dashboard.html" >Dashboard</a>
+            <a href="filter.html"class="active">Categories</a>
+            <a href="dogdisplay.html" >Adoption</a>
+            <a href="login.html">Login</a>
+            <a href="form.html">Form</a>
+            <a href="Invoice.html">Invoice</a>
+        </nav>
+
+        </header>
+        
+        <section class="filter-section">
+            <h2>Filter Dogs</h2>
+            <div class="filter-grid">
+                <div class="filter-group">
+                    <label for="status-filter">Status</label>
+                    <select id="status-filter" class="filter-control">
+                        <option value="all">All Statuses</option>
+                        <option value="available">Available</option>
+                        <option value="adopted">Adopted</option>
+                        <option value="pending">Pending</option>
+                    </select>
+                </div>
+                
+                <div class="filter-group">
+                    <label for="breed-filter">Breed</label>
+                    <select id="breed-filter" class="filter-control">
+                        <option value="all">All Breeds</option>
+                        <option value="labrador">Labrador Retriever</option>
+                        <option value="german-shepherd">German Shepherd</option>
+                        <option value="golden-retriever">Golden Retriever</option>
+                        <option value="bulldog">Bulldog</option>
+                        <option value="beagle">Beagle</option>
+                        <option value="poodle">Poodle</option>
+                        <option value="siberian-husky">Siberian Husky</option>
+                    </select>
+                </div>
+                
+                <div class="filter-group">
+                    <label for="age-filter">Age: <span id="age-value" class="age-value">Any</span></label>
+                    <input type="range" id="age-filter" class="age-slider" min="0" max="15" value="0">
+                </div>
+            </div>
+            
+            <div class="actions">
+                <button id="apply-filters" class="btn btn-primary">Apply Filters</button>
+                <button id="reset-filters" class="btn btn-secondary">Reset Filters</button>
+            </div>
+        </section>
+        
+        <section class="results-section">
+            <div class="results-header">
+                <div class="results-count">Showing <span id="count">12</span> dogs</div>
+                <div class="sort-by">
+                    <select id="sort-by">
+                        <option value="name">Sort by Name</option>
+                        <option value="age">Sort by Age</option>
+                        <option value="breed">Sort by Breed</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div class="dogs-grid">
+                <!-- Dog cards will be generated here -->
+            </div>
+        </section>
+    </div>
+
+    <script>
+        // Sample dog data
+        const dogs = [
+            { 
+                id: 1, 
+                name: "Tommy", 
+                breed: "labrador", 
+                breedName: "Labrador Retriever",
+                age: 2, 
+                status: "available", 
+                image: "https://tse3.mm.bing.net/th/id/OIP.5SKy7vaF9jvrXdmYcJkprgHaFS?pid=Api&P=0&h=180",
+                description: "Friendly and energetic labrador who loves to play fetch."
+            },
+            { 
+                id: 2, 
+                name: "Max", 
+                breed: "german-shepherd", 
+                breedName: "German Shepherd",
+                age: 3, 
+                status: "available", 
+                image: "https://tse1.mm.bing.net/th/id/OIP.9t1jACL7uxLHwf4S3wEf1gHaEo?pid=Api&P=0&h=180",
+                description: "Loyal and protective companion, great with families."
+            },
+            { 
+                id: 3, 
+                name: "Zoya", 
+                breed: "golden-retriever", 
+                breedName: "Golden Retriever",
+                age: 1, 
+                status: "pending", 
+                image: "https://tse4.mm.bing.net/th/id/OIP.F2n8lG77WJwtWolnzDzkEwHaJ4?pid=Api&P=0&h=180",
+                description: "Gentle and intelligent, loves swimming and retrieving."
+            },
+            { 
+                id: 4, 
+                name: "Rocky", 
+                breed: "bulldog", 
+                breedName: "Bulldog",
+                age: 4, 
+                status: "available", 
+                image: "https://up.yimg.com/ib/th/id/OIP.EkLk93f1eGWoUjj_L4uVawHaE8?pid=Api&rs=1&c=1&qlt=95&w=183&h=122",
+                description: "Calm and courageous with a loving disposition."
+            },
+            { 
+                id: 5, 
+                name: "Browny", 
+                breed: "siberian-husky", 
+                breedName: "Siberian Husky",
+                age: 2, 
+                status: "adopted", 
+                image: "https://images.unsplash.com/photo-1587300003388-59208cc962cb?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&h=400&q=80",
+                description: "Energetic and independent with striking blue eyes."
+            },
+            { 
+                id: 6, 
+                name: "Charlie", 
+                breed: "beagle", 
+                breedName: "Beagle",
+                age: 5, 
+                status: "available", 
+                image: "https://cdn.britannica.com/17/234217-050-F74C669C/Beagle-hound-dog-puppy.jpg",
+                description: "Curious and merry, great with kids and other pets."
+            },
+            { 
+                id: 7, 
+                name: "Milo", 
+                breed: "Pug", 
+                breedName: "Pug",
+                age: 3, 
+                status: "available", 
+                image: "https://tse1.mm.bing.net/th/id/OIP.2WS1Au75X6ExC-8Bm32NcAHaHa?pid=Api&P=0&h=180",
+                description: "Highly intelligent and trainable with a hypoallergenic coat."
+            },
+            { 
+                id: 8, 
+                name: "Daisy", 
+                breed: "labrador", 
+                breedName: "Labrador Retriever",
+                age: 1, 
+                status: "pending", 
+                image: "https://paradepets.com/.image/w_1080,q_auto:good,c_limit/NTowMDAwMDAwMDAwMDkwMjM2/gsd-baby.jpg",
+                description: "Playful and affectionate, loves attention and treats."
+            },
+            { 
+                id: 9, 
+                name: "Bella", 
+                breed: "german-shepherd", 
+                breedName: "German Shepherd",
+                age: 2, 
+                status: "adopted", 
+                image: "https://images.unsplash.com/photo-1517423738875-5ce310acd3da?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&h=400&q=80",
+                description: "Confident and courageous, excellent guard dog."
+            },
+            { 
+                id: 10, 
+                name: "Jack", 
+                breed: "Husky", 
+                breedName: "Husky",
+                age: 6, 
+                status: "pending", 
+                image: "https://up.yimg.com/ib/th/id/OIP.heSguU0NKAlz6wZj3eNDzQHaEo?pid=Api&rs=1&c=1&qlt=95&w=162&h=101",
+                description: "Calm and courageous, with a loving disposition."
+            }
+        ];
+
+        // DOM elements
+        const statusFilter = document.getElementById('status-filter');
+        const breedFilter = document.getElementById('breed-filter');
+        const ageFilter = document.getElementById('age-filter');
+        const ageValue = document.getElementById('age-value');
+        const applyFiltersBtn = document.getElementById('apply-filters');
+        const resetFiltersBtn = document.getElementById('reset-filters');
+        const sortBy = document.getElementById('sort-by');
+        const countElement = document.getElementById('count');
+        const dogsGrid = document.querySelector('.dogs-grid');
+
+        // Initialize the page
+        function init() {
+            displayDogs(dogs);
+            setupEventListeners();
+        }
+
+        // Set up event listeners
+        function setupEventListeners() {
+            applyFiltersBtn.addEventListener('click', applyFilters);
+            resetFiltersBtn.addEventListener('click', resetFilters);
+            sortBy.addEventListener('change', applyFilters);
+            
+            ageFilter.addEventListener('input', function() {
+                if (this.value === '0') {
+                    ageValue.textContent = 'Any';
+                } else {
+                    ageValue.textContent = `${this.value} years or younger`;
+                }
+            });
+        }
+
+        // Apply filters to the dog list
+        function applyFilters() {
+            const statusValue = statusFilter.value;
+            const breedValue = breedFilter.value;
+            const ageValue = ageFilter.value;
+            const sortValue = sortBy.value;
+
+            let filteredDogs = dogs.filter(dog => {
+                // Status filter
+                if (statusValue !== 'all' && dog.status !== statusValue) {
+                    return false;
+                }
+                
+                // Breed filter
+                if (breedValue !== 'all' && dog.breed !== breedValue) {
+                    return false;
+                }
+                
+                // Age filter
+                if (ageValue !== '0' && dog.age > parseInt(ageValue)) {
+                    return false;
+                }
+                
+                return true;
+            });
+
+            // Sort the filtered dogs
+            filteredDogs.sort((a, b) => {
+                if (sortValue === 'name') {
+                    return a.name.localeCompare(b.name);
+                } else if (sortValue === 'age') {
+                    return a.age - b.age;
+                } else if (sortValue === 'breed') {
+                    return a.breedName.localeCompare(b.breedName);
+                }
+                return 0;
+            });
+
+            // Display the filtered dogs
+            displayDogs(filteredDogs);
+        }
+
+        // Reset all filters
+        function resetFilters() {
+            statusFilter.value = 'all';
+            breedFilter.value = 'all';
+            ageFilter.value = '0';
+            ageValue.textContent = 'Any';
+            sortBy.value = 'name';
+            applyFilters();
+        }
+
+        // Display dogs in the grid
+        function displayDogs(dogsArray) {
+            countElement.textContent = dogsArray.length;
+            
+            if (dogsArray.length === 0) {
+                dogsGrid.innerHTML = `
+                    <div class="no-results">
+                        <i class="fas fa-search"></i>
+                        <h3>No dogs match your filters</h3>
+                        <p>Try adjusting your filters to see more results</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            let html = '';
+            dogsArray.forEach(dog => {
+                html += `
+                    <div class="dog-card">
+                        <div class="dog-image">
+                            <img src="${dog.image}" alt="${dog.name}">
+                        </div>
+                        <div class="dog-info">
+                            <h3 class="dog-name">${dog.name}</h3>
+                            <p class="dog-details">${dog.breedName} • ${dog.age} years old</p>
+                            <p class="dog-details">${dog.description}</p>
+                            <span class="dog-status status-${dog.status}">${dog.status.charAt(0).toUpperCase() + dog.status.slice(1)}</span>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            dogsGrid.innerHTML = html;
+        }
+
+        // Initialize the page when loaded
+        document.addEventListener('DOMContentLoaded', init);
+    </script>
+</body>
+</html>

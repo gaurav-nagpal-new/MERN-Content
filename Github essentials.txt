@@ -1,0 +1,62 @@
+Theory
+What is Git ?
+A VCS(version control system) - a tool that tracks code changes over time.
+Saves snapshots of the project which is called commits
+Runs on our local machine - install it 
+Created by Linus Trovalds
+
+What is Github ?
+A cloud platform that hosts Git repositories online
+Store the code on the cloud
+Useful when we need to collaborate with other developers
+Runs on Github servers
+Owner: MicroSoft
+
+How to create an account on Github ? - DIY
+
+What is a repository ? 
+Storage space for our project - similar to a folder on drive but with more features.
+Local Repo: Stored on the local system when we run git init command
+Remote Repo: Stored on a cloud platform like github, bitbucket etc.
+
+What is a PR ? (Pull request)
+When a developer has made a project and created a repo for that on github. Another developer wants to do some changes to the same repo. He can't as he does not own the repo but instead he can raise a PR which can be reviewed by the owners of that repo and they can take the suitable action.
+A request to the repo that I have done some changes. Either review it, merge it or reject it.
+
+
+What is repo cloning ?
+Making a copy of the repo in the local to work on it
+
+Practical
+Create a repo on Github and link it to the local repo you have
+Pushing the complete repo to Github
+
+What are branches ? How to checkout a branch ?
+Brannch represents a parallel timeline of the project. Generally in a company, three protected branches are there - develop, stage and master
+
+What are changes, staged changes and commited changes ?
+Changes - you have done some code changes in the project
+Stage - the changes that will be considered to push
+Commited Changes - the changes from stage now been finalized and will be pushed
+
+Note: Github is more instead of just above concepts. Can refer: https://www.youtube.com/watch?v=uwyP5SNlQAU&t=3256s
+
+
+Steps to push a local project to github like a github repo
+
+Before this, create the .gitignore file to avoid pushing the node_modules and .env file to github
+Step 1: Create a local repo
+-> git init
+You will some changes on the side bar - file colour changes - the green ones are useful to git, other than that are ignored.
+
+
+Step 2: Create a remote repo to track the local repo - set the origin
+a. Go to github account and login
+b. Click on New
+c. Give the required info and create it 
+d. Setup the origin 
+e. add the changes to staging area.  git add . -> stage all changes
+f. commit the changes - git commit -m "some commit message" -> message should be descriptive
+e. push the changes - git push --set-upstream origin master
+
+For cloning, command is git clone repo-link, 
